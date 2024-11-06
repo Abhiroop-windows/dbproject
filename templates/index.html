@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('../static/fcbground.jpg'); /* Adjust the path as necessary */
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for readability */
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .table{
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Sports Management</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/team_management">Team Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Team Management</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <h2 class="mt-4">Add Player</h2>
+<form method="POST" action="{{ url_for('team_management') }}">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" required>
+    </div>
+    <div class="form-group">
+        <label for="position">Position</label>
+        <input type="text" class="form-control" name="position" required>
+    </div>
+    <div class="form-group">
+        <label for="team_name">Team Name</label>
+        <input type="text" class="form-control" name="team_name" required>
+    </div>
+    <div class="form-group">
+        <label for="jersey_number">Jersey Number</label>
+        <input type="number" class="form-control" name="jersey_number" required>
+    </div>
+    <button type="submit" class="btn btn-primary" name="add_player">Add Player</button>
+</form>
+
+<h2 class="mt-4">Add Formation</h2>
+<form method="POST" action="{{ url_for('team_management') }}">
+    <div class="form-group">
+        <label for="formation_name">Formation Name</label>
+        <input type="text" class="form-control" name="formation_name" required>
+    </div>
+    <div class="form-group">
+        <label for="formation">Formation Type</label>
+        <input type="text" class="form-control" name="formation" required>
+    </div>
+    <button type="submit" class="btn btn-primary" name="add_formation">Add Formation</button>
+</form>
+
+        <h2 class="mt-4">Players List</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Team Name</th>
+                    <th>Jersey Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player in players %}
+                <tr>
+                    <td>{{ player.id }}</td>
+                    <td>{{ player.name }}</td>
+                    <td>{{ player.position }}</td>
+                    <td>{{ player.team_name }}</td>
+                    <td>{{ player.jersey_number }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2 class="mt-4">Formations List</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Formation Name</th>
+                    <th>Formation Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for formation in formations %}
+                <tr>
+                    <td>{{ formation.name }}</td>
+                    <td>{{ formation.formation_type }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2 class="mt-4">Clear All Data</h2>
+        <form method="POST">
+            <button type="submit" class="btn btn-danger" name="clear_data">Clear All Data</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
